@@ -8,11 +8,11 @@
 }
 
 .isoLogo {
-  height: 1px;
+  margin-right: 25px;
 }
 
 .nav-search-input {
-  width: 80%;
+  width: 70%;
   height: 40px;
   padding-left: 10px;
   font-size: 18px;
@@ -20,16 +20,27 @@
   border-radius: 3px 0px 0px 3px;
 }
 
+.nav-search-input:focus { 
+  outline: none; 
+}
+
+.nav-search-input::placeholder {
+  color: #999999;
+}
+
 .searchBtn {
   width: 40px;
   height: 42px;
-  background-color: $ml-lightGrey;
   border: none;
   border-radius: 0px 3px 3px 0px;
+  background-color: $ml-lightGrey;
+  background-image: url('../assets/ic_Search.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+.searchBtn:focus { 
+  outline: none; 
 }
 
-.nav-icon-search {
-  height: 18px;
-  width: 18px;
-  //background-image: url('../../public/assets/ic_Search.png');
-}
+

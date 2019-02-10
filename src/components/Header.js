@@ -1,15 +1,18 @@
-import React from 'react'
+import React from 'react';
+import InputSearch from './InputSearch';
+import ButtonSearch from './ButtonSearch';
+import IsoLogo from './IsoLogo';
 
 class Header extends React.Component{
     render(){
         return(
             <header className='nav-header'>
-                <input type='text' className='nav-search-input' placeholder='No dejes de buscar'></input>
-                <button className='searchBtn'>B</button>
+                <IsoLogo />
+                <InputSearch />
+                <ButtonSearch />
             </header>
-        ) 
+        )
     }
 }
-
 
 export default Header;
