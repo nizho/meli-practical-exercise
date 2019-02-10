@@ -1,0 +1,46 @@
+.nav-header {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $ml-yellow;
+}
+
+.isoLogo {
+  margin-right: 25px;
+}
+
+.nav-search-input {
+  width: 70%;
+  height: 40px;
+  padding-left: 10px;
+  font-size: 18px;
+  border: none;
+  border-radius: 3px 0px 0px 3px;
+}
+
+.nav-search-input:focus { 
+  outline: none; 
+}
+
+.nav-search-input::placeholder {
+  color: #999999;
+}
+
+.searchBtn {
+  width: 40px;
+  height: 42px;
+  border: none;
+  border-radius: 0px 3px 3px 0px;
+  background-color: $ml-lightGrey;
+  background-image: url('../assets/ic_Search.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+.searchBtn:focus { 
+  outline: none; 
+}
+
+
