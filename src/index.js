@@ -1,10 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './styles/mainStyles.scss';
-import Header from './components/Header';
-import * as serviceWorker from './serviceWorker';
+import ViewContent from './components/ViewContent';
 
-ReactDOM.render(<Header />, document.getElementById('root'));
+ReactDOM.render(<ViewContent />, document.getElementById('root'));
 
-
-serviceWorker.unregister();
