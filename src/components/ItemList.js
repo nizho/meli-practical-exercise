@@ -1,14 +1,12 @@
 import React from 'react';
+import Item from './Item';
 
 class ItemList extends React.Component{
     render(){
         return(
             <React.Fragment>
-                <div className='itemListContainer'>
-                    <div className='itemList'></div>
-                </div>
-                <div className='itemListContainer'>
-                    <div className='itemList'></div>
+                <div className='item-list-container'>
+                    <Item />          
                 </div>
             </React.Fragment>
         ) 

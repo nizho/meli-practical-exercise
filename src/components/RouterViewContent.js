@@ -4,7 +4,7 @@ import Breadcrumb from './breadcrumb';
 import ItemList from './ItemList';
 
 
-class ViewContent extends React.Component{
+class RouterViewContent extends React.Component{
     render(){
         return(
             <React.Fragment>
@@ -16,4 +16,4 @@ class ViewContent extends React.Component{
     }
 }
 
-export default ViewContent;
+export default RouterViewContent;

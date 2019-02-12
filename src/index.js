@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './styles/mainStyles.scss';
-import ViewContent from './components/ViewContent';
+import RouterViewContent from './components/RouterViewContent';
 
-ReactDOM.render(<ViewContent />, document.getElementById('root'));
+ReactDOM.render(<RouterViewContent />, document.getElementById('root'));
 
