@@ -1,6 +1,8 @@
 .item-grid-container {
     grid-column: 2 / 12;
     background-color: white;
+    padding-bottom: 16px;
+    border-bottom: 0.5px solid $ml-lightGrey;
 }
 
 .item {
