@@ -8,7 +8,9 @@ class Item extends React.Component{
             <React.Fragment>
                     <div className='item-grid-container'>
                         <div className='item'>
-                            <div className='box-img'><img src={dummyPic} className='item-img'></img></div>
+                            <div className='box-img'>
+                                <img src={dummyPic} className='item-img'></img>
+                            </div>
                             <div className='box-price'>
                                 <span className='item-price'>$ 1200</span>
                                 <img src={shipingIcon} className='shipping-icon'></img>
