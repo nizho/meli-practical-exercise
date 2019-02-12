@@ -11,8 +11,8 @@ class RouterViewContent extends React.Component{
             <React.Fragment>
                 <Header />
                 <Breadcrumb />
-                <ItemList />
-                {/* <ItemDetails /> */}
+                {/* <ItemList /> */}
+                <ItemDetails />
             </React.Fragment>
         )
     }

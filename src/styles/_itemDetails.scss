@@ -13,7 +13,8 @@
 }
 
 .item-img-detail {
-    margin-bottom: 32px;
+    margin: 32px 32px 0px 32px ;
+    max-width: 100%;
 }
 
 .resume-item-panel {
@@ -69,7 +70,7 @@
 .box-large-desc {
     grid-row: 2;
     grid-column: 1 / 9;
-    padding-left: 32px;
+    margin: 32px 0px 0px 32px;
 }
 
 .title-large-desc {
