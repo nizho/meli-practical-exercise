@@ -18,7 +18,7 @@ class ItemDetails extends React.Component{
                                 <span className='item-desc'>Deco Reverse sombrero Oxford</span>
                             </div>
                             <div className='box-item-price'>
-                                <span className='item-price'>$ 1.980</span>
+                                <span className='item-price-detail'>$ 1.980</span>
                             </div>
                             <div className='box-btn-buy'>
                                 <button className='btn-buy'>COMPRAR</button>

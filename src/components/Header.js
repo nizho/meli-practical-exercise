@@ -5,10 +5,12 @@ import IsoLogo from './IsoLogo';
 class Header extends React.Component{
     render(){
         return(
-            <header className='nav-header'>
-                <IsoLogo />
-                <InputSearch />
-            </header>
+            <div className='header-grid'>
+                <header className='nav-header'>
+                        <IsoLogo />
+                        <InputSearch />                
+                </header>
+            </div>
         )
     }
 }

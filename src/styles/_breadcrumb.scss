@@ -2,10 +2,12 @@
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     background-color: $ml-lightGrey;
+    margin: auto;
+    width: 80%;
 }
 
 .breadcrumb {
-    grid-column: 2 / 11;
+    grid-column: 1 / 11;
     color: #999999;
     font-size: 14px;
     margin: 16px 0px 16px 0px;
