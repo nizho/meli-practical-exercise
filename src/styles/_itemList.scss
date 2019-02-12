@@ -1,11 +1,5 @@
-.itemListContainer {
+.item-list-container {
     display: grid;
     grid-template-columns: repeat(12,1fr);
     height: 212px;
-}
-
-.itemList {
-    grid-column: 2 / 12;
-    background-color: white;
-    border-bottom: 1px solid #EEEEEE;
 }
