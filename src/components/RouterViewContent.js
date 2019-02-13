@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './Header';
 import Breadcrumb from './breadcrumb';
 import ItemList from './ItemList';
+import ItemDetails from './ItemDetails';
 
 
 class RouterViewContent extends React.Component{
@@ -10,8 +11,9 @@ class RouterViewContent extends React.Component{
             <React.Fragment>
                 <Header />
                 <Breadcrumb />
-                <ItemList />
-            </React.Fragment> 
+                {/* <ItemList /> */}
+                <ItemDetails />
+            </React.Fragment>
         )
     }
 }
