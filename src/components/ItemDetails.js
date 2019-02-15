@@ -1,7 +1,6 @@
 import React from 'react';
 import Breadcrumb from './breadcrumb';
 import dummyPicDetail from '../assets/dummyPicDetail.jpg';
-import shipingIcon from '../assets/ic_shipping.png';
 
 class ItemDetails extends React.Component{
     render(){
@@ -10,7 +9,7 @@ class ItemDetails extends React.Component{
                 <Breadcrumb />
                 <div className='itemDetails-grid-container'>
                     <div className='box-img-detail'>
-                        <img src={dummyPicDetail} className='item-img-detail'></img>
+                        <img src={dummyPicDetail} className='item-img-detail' alt='item imagen detail'></img>
                     </div>
                     <div className='resume-item-panel'>
                         <div className='box-qty-sold'>
