@@ -1,6 +1,8 @@
 import React from 'react';
+import queryString from 'query-string'
 import Item from './Item';
 import Breadcrumb from './breadcrumb';
+
 const axios = require('axios')
 
 class ItemList extends React.Component{
@@ -9,12 +11,18 @@ class ItemList extends React.Component{
         items: []
     }
 
+    componentDidUpdate () {
+        
+    }
+
     componentDidMount () {
         this.searchItems()
     }
 
     searchItems = () => {
-        axios.get(`http://localhost:5000/api/items?q=cafetera`)
+        const values = queryString.parse(this.props.location.search)
+
+        axios.get(`http://localhost:5000/api/items?q=${values.q}`)
         .then(response => {  
             this.setState({items: response.data.items})
         })
@@ -26,7 +34,8 @@ class ItemList extends React.Component{
                 <Breadcrumb />          
                 <div className='item-list-container'>
                     {Object.keys(this.state.items).map(key => (
-                        <Item 
+                        <Item
+                            key = {key} 
                             items={this.state.items[key]}
                         />
                     ))}    

@@ -8,15 +8,15 @@ import ItemDetails from './ItemDetails';
 class RouterViewContent extends React.Component{
     render(){
         return(
-            <main>
-                <Header />
-                <BrowserRouter>
+            <BrowserRouter>
+                <main>
+                    <Header />
                     <Switch>
                         <Route exact path="/items" component={ItemList} />
                         <Route exact path="/items/:id" component={ItemDetails} />
                     </Switch>
-                </BrowserRouter>
-            </main>
+                </main>
+            </BrowserRouter>
         )
     }
 }

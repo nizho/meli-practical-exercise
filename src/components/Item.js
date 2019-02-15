@@ -4,7 +4,6 @@ import shipingIcon from '../assets/ic_shipping.png';
 const Item = (props) => {
     return(
         <React.Fragment>
-            {console.log(props.items)}
             <div className='item-grid-container'>
                 <div className='item'>
                     <div className='box-img'>
