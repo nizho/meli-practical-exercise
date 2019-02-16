@@ -1,19 +1,16 @@
 const express = require('express')
 const axios = require('axios')
 const router = express.Router()
-const serviceUrl = 'https://api.mercadolibre.com/sites/MLA/'
-
-// 'https://api.mercadolibre.com/items/​:id'             //datos en general
-// 'https://api.mercadolibre.com/items/​:id​/description' // solo retorna la descripcion
-
+const serviceUrl = 'https://api.mercadolibre.com/'
 
 
 var axiosInstance = axios.create({
     baseURL: serviceUrl
 })
 
-/* Item object to map ML response */
-
+/* ****************************************************************************** */
+/*                                  SEARCH ITEMS
+/* ****************************************************************************** */
 searchResponse = () => {
     return {
         author: {
@@ -24,10 +21,6 @@ searchResponse = () => {
         items: [] 
     }
 }
-
-/* ****************************************************************************** */
-/*                                  ITEM DETAILS
-/* ****************************************************************************** */
 
  searchItem = (item) => {
     return {
@@ -45,9 +38,9 @@ searchResponse = () => {
 }
 
 itemResponseMapper = (response) => {
-  meliItemRes = response.data;
-  const items = searchResponse(); 
-  meliItemRes.results.forEach(function(item){
+    meliItemRes = response.data;
+    const items = searchResponse(); 
+    meliItemRes.results.forEach(function(item){
     const mappedItem = this.searchItem(item); 
     items.items.push(mappedItem)
    });
@@ -59,7 +52,7 @@ router.get('/items', function(req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-    axiosInstance.get(`search?q=${req.query.q}&limit=4`)
+    axiosInstance.get(`sites/MLA/search?q=${req.query.q}&limit=4`)
         .then(function(response){
             return res.json(this.itemResponseMapper(response))
         })
@@ -71,51 +64,56 @@ router.get('/items', function(req, res) {
 
 
 /* ****************************************************************************** */
-/*                                  ITEM DETAILS
+/*                                  SEARCH ITEM DETAIL
 /* ****************************************************************************** */
 
-/* Item Detail object to map ML response */
-
-const itemDetails = {
-    author: {
-        name: String,
-        lastname: String 
-    },
-    item: {
-        id: String,   
-        title: String,
-    price: {
-        currency: String,
-        amount: Number,
-        decimals: Number
-    },
-    picture: String,
-    condition: String,
-    free_shipping: Boolean,
-    sold_quantity: Number,
-    description: String
-    } 
+searchDetailsResponse = () => {
+    return {
+        author: {
+            name: 'Diego',
+            lastname: 'Martinez'
+        },
+        item: {} 
+    }
 }
 
-itemResponseMapper = (response) => {
-    meliItemRes = response.data;
-    const items = searchResponse(); 
-    meliItemRes.results.forEach(function(item){
-      const mappedItem = this.searchItem(item); 
-      items.items.push(mappedItem)
-     });
-     return items
+itemDetails = (itemRes,descRes) => {
+    return {
+            id: itemRes.id,   
+            title: itemRes.title,
+            price: {
+                currency: itemRes.currency_id,
+                amount: itemRes.price,
+                decimals: Number
+            },
+            picture: itemRes.pictures[0].url,
+            condition: itemRes.condition,
+            free_shipping: Boolean,
+            sold_quantity: itemRes.sold_quantity,
+            description: descRes.plain_text
+        }
+}
+
+itemDetailResponseMapper = (itemRes,descRes) => {
+     const itemDetail = searchDetailsResponse(); 
+     const mappedItem = itemDetails(itemRes,descRes);
+     itemDetail.item = mappedItem
+     return itemDetail
   }
 
-router.get('/items:id', function(req, res) {    
+router.get('/items/:id', function(req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-    axiosInstance.get(`search?q=${req.query.id}`)
-        .then(function(response){
-            return res.json(this.itemDetailResponseMapper(response))
-        })
-        .catch(function(error) {
+    itemDetailPromise = axiosInstance.get(`/items/${req.params.id}`)
+    itemDescriptionPromise = axiosInstance.get(`/items/${req.params.id}/description`)
+
+    Promise.all([itemDetailPromise, itemDescriptionPromise])
+        .then(function(values) {
+            itemRes = values[0].data
+            descRes = values[1].data
+            res.json(this.itemDetailResponseMapper(itemRes,descRes))
+        }).catch(function(error) {
             console.log(error)
         })
     }

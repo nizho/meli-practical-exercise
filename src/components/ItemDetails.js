@@ -1,44 +1,63 @@
 import React from 'react';
 import Breadcrumb from './breadcrumb';
-import dummyPicDetail from '../assets/dummyPicDetail.jpg';
+const axios = require('axios')
 
 class ItemDetails extends React.Component{
-    render(){
-        return(
-            <React.Fragment>
-                <Breadcrumb />
-                <div className='itemDetails-grid-container'>
-                    <div className='box-img-detail'>
-                        <img src={dummyPicDetail} className='item-img-detail' alt='item imagen detail'></img>
-                    </div>
-                    <div className='resume-item-panel'>
-                        <div className='box-qty-sold'>
-                            <span className='qty-sold'>Deco Reverse sombrero Oxford</span>
-                        </div>
-                        <div className='box-item-desc'>
-                            <span className='item-desc'>Deco Reverse sombrero Oxford</span>
-                        </div>
-                        <div className='box-item-price'>
-                            <span className='item-price-detail'>$ 1.980</span>
-                        </div>
-                        <div className='box-btn-buy'>
-                            <button className='btn-buy'>COMPRAR</button>
-                        </div>
-                    </div>
-                    <div className='box-large-desc'>
-                        <span className='title-large-desc'>Descripcion del producto</span>
-                        <span className='large-desc'>Lorem Ipsum is simply
-                            dummy text of the printing and typesetting industry.
-                            Lorem Ipsum has been the industry's standard dummy
-                            text ever since the 1500s, when an unknown printer took
-                            a galley of type and scrambled it to make a type specimen book.
-                            It has survived not only five centuries, but also the leap
-                            into electronic typesetting, remaining essentially unchanged.</span>
-                    </div>
 
-                </div>    
-            </React.Fragment>
-        ) 
+    state = {
+        item: {},
+        InfoLoaded: false
+    }
+
+    componentDidMount () {
+        this.searchItems()
+    }
+
+    searchItems = () => {
+        axios.get(`http://localhost:5000/api/items/${this.props.match.params.id}`)
+        .then(response => {
+            //console.log(response.data.item)
+            this.setState({item: response.data.item})
+            this.setState({infoLoaded: true})
+        })
+    } 
+
+    render(){
+        if (this.state.infoLoaded) {
+            return(
+                <React.Fragment>
+                    <Breadcrumb />
+                    <div className='itemDetails-grid-container'>
+                        <div className='box-img-detail'>
+                            <img src={this.state.item.picture} className='item-img-detail' alt='item imagen detail'></img>
+                        </div>
+                        <div className='resume-item-panel'>
+                            <div className='box-qty-sold'>
+                                <span className='qty-sold'></span>
+                            </div>
+                            <div className='box-item-desc'>
+                                <span className='item-desc'>{this.state.item.title}</span>
+                            </div>
+                            <div className='box-item-price'>
+                                <span className='item-price-detail'>${this.state.item.price.amount}</span>
+                            </div>
+                            <div className='box-btn-buy'>
+                                <button className='btn-buy'>COMPRAR</button>
+                            </div>
+                        </div>
+                        <div className='box-large-desc'>
+                            <span className='title-large-desc'>Descripcion del producto</span>
+                            <span className='large-desc'>{this.state.item.description}</span>
+                        </div>
+
+                    </div>    
+                </React.Fragment>
+            )
+        } else {
+            return (
+                <div>No se cargo aun</div>
+            ) 
+        }
     }
 }
 export default ItemDetails;

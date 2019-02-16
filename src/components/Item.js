@@ -1,14 +1,25 @@
 import React from 'react';
 import shipingIcon from '../assets/ic_shipping.png';
+import { withRouter } from 'react-router-dom'
 
 
 class Item extends React.Component {
+
+    constructor (props) {
+        super(props)
+        this.redirectItemDetail = this.redirectItemDetail.bind(this)
+    }
+
+    redirectItemDetail(event) {
+        event.preventDefault()
+        this.props.history.push(`items/${this.props.items.id}`);
+    }
 
     render(){
         return(
             <React.Fragment>
                 <div className='item-grid-container'>
-                    <div className='item' >
+                    <div className='item' onClick={this.redirectItemDetail} >
                         <div className='box-img'>
                             <img src={this.props.items.picture} className='item-img' alt='item img'></img>
                         </div>
@@ -25,4 +36,4 @@ class Item extends React.Component {
     }     
 }
 
-export default Item;
+export default withRouter(Item)
