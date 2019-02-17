@@ -1,5 +1,5 @@
 import React from 'react';
-import shipingIcon from '../assets/ic_shipping.png';
+import shipingIconImg from '../assets/ic_shipping.png';
 import { withRouter } from 'react-router-dom'
 
 
@@ -15,6 +15,16 @@ class Item extends React.Component {
         this.props.history.push(`items/${this.props.items.id}`);
     }
 
+    shippingIcon (){
+        if (this.props.items.free_shipping){
+            return (
+                <img src={shipingIconImg} className='shipping-icon' alt='shipping icon imgage'></img>
+            )
+        } else {
+            return null
+        }
+    }
+
     render(){
         return(
             <React.Fragment>
@@ -25,9 +35,9 @@ class Item extends React.Component {
                         </div>
                         <div className='box-price'>
                             <span className='item-price'>${this.props.items.price.amount}</span>
-                            <img src={shipingIcon} show={(this.props.items.free_shipping).toString()} className='shipping-icon' alt='shipping icon imgage'></img>
+                            {this.shippingIcon()}
                         </div>
-                        <div className='box-region'><span className='region'>Catamarca</span></div>                            
+                        <div className='box-region'><span className='region'>{this.props.items.location}</span></div>                            
                         <div className='box-short-desc'><span className='item-short-desc'>{this.props.items.title} </span></div>
                     </div>                     
                 </div>

@@ -24,6 +24,25 @@ getCategories = (catId) =>  {
     }) 
  }
 
+ getFreqCategory = (response) => {
+    res = response.data
+    var categories = []
+    var  count = []
+    var category = ''
+
+    res.results.forEach(function(item){
+        categories.push(item.category_id)
+    });
+
+    categories.forEach(function(i) { 
+        count[i] = (count[i]||0) + 1;
+    });
+
+    category = Object.keys(count)
+    
+    return category[0]
+ }
+
 /* ****************************************************************************** */
 /*                                  SEARCH ITEMS
 /* ****************************************************************************** */
@@ -50,17 +69,19 @@ searchResponse = () => {
         },
         picture: item.thumbnail,
         condition: item.condition,
-        free_shipping: item.shipping.free_shipping
+        free_shipping: item.shipping.free_shipping,
+        location: item.address.state_name
     }
 }
 
-itemResponseMapper = (response) => {
+itemResponseMapper = (response, categories) => {
     meliItemRes = response.data;
     const items = searchResponse(); 
     meliItemRes.results.forEach(function(item){
-    const mappedItem = this.searchItem(item); 
-    items.items.push(mappedItem)
+        const mappedItem = this.searchItem(item); 
+        items.items.push(mappedItem)      
    });
+   items.categories = categories
    return items
 }
 
@@ -71,13 +92,19 @@ router.get('/items', function(req, res) {
 
     axiosInstance.get(`sites/MLA/search?q=${req.query.q}&limit=4`)
         .then(function(response){
-            res.json(this.itemResponseMapper(response))
+            var itemsResponse = response
+            var category_id = this.getFreqCategory(itemsResponse) 
+            this.getCategories(category_id).then(function(response){
+                const categories = response
+                res.json(this.itemResponseMapper(itemsResponse, categories))
+            })     
         })
         .catch(function(error) {
             console.log(error)
         })
     }
 )
+
 
 /* ****************************************************************************** */
 /*                                  SEARCH ITEM DETAIL

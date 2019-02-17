@@ -21,7 +21,17 @@ class ItemDetails extends React.Component{
             this.setState({categories: response.data.categories})
             this.setState({infoLoaded: true})
         })
-    } 
+    }
+
+    conditionMap () {
+        if (this.state.item.condition === 'new') {
+            return 'Nuevo'
+        } else if (this.state.item.condition === 'used') {
+            return 'Usado'
+        } else {
+            return 'No se informa'
+        }
+    }
 
     render(){
         if (this.state.infoLoaded) {
@@ -36,7 +46,7 @@ class ItemDetails extends React.Component{
                         </div>
                         <div className='resume-item-panel'>
                             <div className='box-qty-sold'>
-                                <span className='qty-sold'></span>
+                                <span className='qty-sold'>{this.conditionMap()} - {this.state.item.sold_quantity} vendidas</span>
                             </div>
                             <div className='box-item-desc'>
                                 <span className='item-desc'>{this.state.item.title}</span>
