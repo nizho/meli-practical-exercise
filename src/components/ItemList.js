@@ -10,7 +10,9 @@ class ItemList extends React.Component {
     state = {
         lastQueryString: String,
         newQueryString: String,
-        items: []
+        categories: [],
+        items: [],
+        InfoLoaded: false
     }
 
     componentDidUpdate () {
@@ -26,28 +28,36 @@ class ItemList extends React.Component {
 
     searchItems = () => {
         const values = queryString.parse(this.props.location.search)
-        this.setState({lastQueryString: values.q})
+        this.setState({lastQueryString: values.q, infoLoaded: false})
         axios.get(`http://localhost:5000/api/items?q=${values.q}`)
         .then(response => {  
-            this.setState({items: response.data.items})
+            this.setState({items: response.data.items, categories: response.data.categories, infoLoaded: true })
         })
     } 
 
     render(){
-        return(
-            <React.Fragment>
-                <Breadcrumb />          
-                <div className='item-list-container'>
-                    {Object.keys(this.state.items).map(key => (
-                        <Item
-                            key = {key} 
-                            items={this.state.items[key]}
-                        />
-                    ))}
-                    <div><br/></div>    
-                </div>
-            </React.Fragment>
-        ) 
+        if (this.state.infoLoaded) {
+            return(
+                <React.Fragment>
+                    <Breadcrumb 
+                        categories = {this.state.categories}
+                    />          
+                    <div className='item-list-container'>
+                        {Object.keys(this.state.items).map(key => (
+                            <Item
+                                key = {key} 
+                                items={this.state.items[key]}
+                            />
+                        ))}
+                        <div><br/></div>    
+                    </div>
+                </React.Fragment>
+            )
+        } else {
+            return (
+                <div></div>
+            ) 
+        } 
     }
 }
 

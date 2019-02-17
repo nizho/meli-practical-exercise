@@ -6,6 +6,7 @@ class ItemDetails extends React.Component{
 
     state = {
         item: {},
+        categories: [],
         InfoLoaded: false
     }
 
@@ -16,24 +17,36 @@ class ItemDetails extends React.Component{
     searchItems = () => {
         axios.get(`http://localhost:5000/api/items/${this.props.match.params.id}`)
         .then(response => {
-            //console.log(response.data.item)
             this.setState({item: response.data.item})
+            this.setState({categories: response.data.categories})
             this.setState({infoLoaded: true})
         })
-    } 
+    }
+
+    conditionMap () {
+        if (this.state.item.condition === 'new') {
+            return 'Nuevo'
+        } else if (this.state.item.condition === 'used') {
+            return 'Usado'
+        } else {
+            return 'No se informa'
+        }
+    }
 
     render(){
         if (this.state.infoLoaded) {
             return(
                 <React.Fragment>
-                    <Breadcrumb />
+                    <Breadcrumb
+                        categories = {this.state.categories} 
+                    />
                     <div className='itemDetails-grid-container'>
                         <div className='box-img-detail'>
                             <img src={this.state.item.picture} className='item-img-detail' alt='item imagen detail'></img>
                         </div>
                         <div className='resume-item-panel'>
                             <div className='box-qty-sold'>
-                                <span className='qty-sold'></span>
+                                <span className='qty-sold'>{this.conditionMap()} - {this.state.item.sold_quantity} vendidas</span>
                             </div>
                             <div className='box-item-desc'>
                                 <span className='item-desc'>{this.state.item.title}</span>
@@ -55,7 +68,7 @@ class ItemDetails extends React.Component{
             )
         } else {
             return (
-                <div>No se cargo aun</div>
+                <div></div>
             ) 
         }
     }
