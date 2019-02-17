@@ -9,8 +9,25 @@ var axiosInstance = axios.create({
 })
 
 /* ****************************************************************************** */
+/*                               Breadcrumb
+/* ****************************************************************************** */
+
+getCategories = (catId) =>  {
+    return new Promise(function(resolve, error) {
+     axiosInstance.get(`categories/${catId}`)
+         .then(function(response){
+             resolve(response.data.path_from_root)
+         })
+         .catch(function(error) {
+             console.log(error)
+         })    
+    }) 
+ }
+
+/* ****************************************************************************** */
 /*                                  SEARCH ITEMS
 /* ****************************************************************************** */
+
 searchResponse = () => {
     return {
         author: {
@@ -54,14 +71,13 @@ router.get('/items', function(req, res) {
 
     axiosInstance.get(`sites/MLA/search?q=${req.query.q}&limit=4`)
         .then(function(response){
-            return res.json(this.itemResponseMapper(response))
+            res.json(this.itemResponseMapper(response))
         })
         .catch(function(error) {
             console.log(error)
         })
     }
 )
-
 
 /* ****************************************************************************** */
 /*                                  SEARCH ITEM DETAIL
@@ -73,6 +89,7 @@ searchDetailsResponse = () => {
             name: 'Diego',
             lastname: 'Martinez'
         },
+        categories: [],
         item: {} 
     }
 }
@@ -94,10 +111,11 @@ itemDetails = (itemRes,descRes) => {
         }
 }
 
-itemDetailResponseMapper = (itemRes,descRes) => {
+itemDetailResponseMapper = (itemRes,descRes,categories) => {
      const itemDetail = searchDetailsResponse(); 
      const mappedItem = itemDetails(itemRes,descRes);
      itemDetail.item = mappedItem
+     itemDetail.categories = categories
      return itemDetail
   }
 
@@ -112,12 +130,14 @@ router.get('/items/:id', function(req, res) {
         .then(function(values) {
             itemRes = values[0].data
             descRes = values[1].data
-            res.json(this.itemDetailResponseMapper(itemRes,descRes))
+            this.getCategories(itemRes.category_id).then(function(response){
+                const categories = response
+                res.json(this.itemDetailResponseMapper(itemRes,descRes,categories))
+            })        
         }).catch(function(error) {
             console.log(error)
         })
     }
 )
-
 
 module.exports = router

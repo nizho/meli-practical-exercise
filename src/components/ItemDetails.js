@@ -6,6 +6,7 @@ class ItemDetails extends React.Component{
 
     state = {
         item: {},
+        categories: [],
         InfoLoaded: false
     }
 
@@ -16,8 +17,8 @@ class ItemDetails extends React.Component{
     searchItems = () => {
         axios.get(`http://localhost:5000/api/items/${this.props.match.params.id}`)
         .then(response => {
-            //console.log(response.data.item)
             this.setState({item: response.data.item})
+            this.setState({categories: response.data.categories})
             this.setState({infoLoaded: true})
         })
     } 
@@ -26,7 +27,9 @@ class ItemDetails extends React.Component{
         if (this.state.infoLoaded) {
             return(
                 <React.Fragment>
-                    <Breadcrumb />
+                    <Breadcrumb
+                        categories = {this.state.categories} 
+                    />
                     <div className='itemDetails-grid-container'>
                         <div className='box-img-detail'>
                             <img src={this.state.item.picture} className='item-img-detail' alt='item imagen detail'></img>
@@ -55,7 +58,7 @@ class ItemDetails extends React.Component{
             )
         } else {
             return (
-                <div>No se cargo aun</div>
+                <div></div>
             ) 
         }
     }
