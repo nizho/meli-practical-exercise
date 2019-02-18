@@ -14,6 +14,10 @@ class Breadcrumb extends React.Component{
     this.breadcrumbCompose()
   }
  
+  /**
+   * Metodo que permite concatenar las categorias que recibe del componente padre  
+   */
+
   breadcrumbCompose () {
     const categories = this.props.categories
     var breadcrumb = categories.map(categories => categories.name).join(" > ") 

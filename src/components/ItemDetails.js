@@ -7,22 +7,27 @@ class ItemDetails extends React.Component{
     state = {
         item: {},
         categories: [],
-        InfoLoaded: false
+        infoLoaded: false
     }
 
     componentDidMount () {
         this.searchItems()
     }
 
+    /**
+     * Metodo inicial para popular los detalles del item.
+     * El flag infoLoaded permite que la vista espere la carga de datos para hacer render
+     */
     searchItems = () => {
         axios.get(`http://localhost:5000/api/items/${this.props.match.params.id}`)
         .then(response => {
-            this.setState({item: response.data.item})
-            this.setState({categories: response.data.categories})
-            this.setState({infoLoaded: true})
+            this.setState({item: response.data.item, categories: response.data.categories,infoLoaded: true })
         })
     }
 
+    /**
+     * Servicio retorna valor en ingles, se mapea a ESP
+     */
     conditionMap () {
         if (this.state.item.condition === 'new') {
             return 'Nuevo'
@@ -46,7 +51,7 @@ class ItemDetails extends React.Component{
                         </div>
                         <div className='resume-item-panel'>
                             <div className='box-qty-sold'>
-                                <span className='qty-sold'>{this.conditionMap()} - {this.state.item.sold_quantity} vendidas</span>
+                                <span className='qty-sold'>{this.conditionMap()} - {this.state.item.sold_quantity} vendidos</span>
                             </div>
                             <div className='box-item-desc'>
                                 <span className='item-desc'>{this.state.item.title}</span>
@@ -68,7 +73,7 @@ class ItemDetails extends React.Component{
             )
         } else {
             return (
-                <div></div>
+                <div className='loader'>Cargando...</div>
             ) 
         }
     }

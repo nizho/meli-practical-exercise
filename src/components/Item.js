@@ -10,11 +10,18 @@ class Item extends React.Component {
         this.redirectItemDetail = this.redirectItemDetail.bind(this)
     }
 
+    /**
+     * Cambio de URL para que router cambie a detalle del item
+     * la url se forma utilizando el ID del producto almacenado como props
+     */
     redirectItemDetail(event) {
         event.preventDefault()
         this.props.history.push(`items/${this.props.items.id}`);
     }
 
+    /**
+     * retorna elemento a la vista (icono) solo si free_shipping es true
+     */
     shippingIcon (){
         if (this.props.items.free_shipping){
             return (

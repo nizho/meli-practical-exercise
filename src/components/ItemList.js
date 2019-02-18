@@ -15,6 +15,10 @@ class ItemList extends React.Component {
         InfoLoaded: false
     }
 
+    /**
+     * Actualiza vista solo si cambia el queryString de la URL
+     */
+    
     componentDidUpdate () {
         const values = queryString.parse(this.props.location.search)
         if (this.state.lastQueryString !== values.q ) {
@@ -26,6 +30,10 @@ class ItemList extends React.Component {
         this.searchItems()
     }
 
+    /**
+     * Metodo inicial para popular el listado
+     * El flag infoLoaded permite que la vista espere la carga de datos para hacer render
+     */
     searchItems = () => {
         const values = queryString.parse(this.props.location.search)
         this.setState({lastQueryString: values.q, infoLoaded: false})
@@ -55,7 +63,7 @@ class ItemList extends React.Component {
             )
         } else {
             return (
-                <div></div>
+                <div className='loader'>Cargando...</div>
             ) 
         } 
     }
