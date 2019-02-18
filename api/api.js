@@ -12,6 +12,9 @@ var axiosInstance = axios.create({
 /*                               Breadcrumb
 /* ****************************************************************************** */
 
+/* 
+ * Metodo generico para la busqueda del path_from_route para categoria de item o listado 
+*/
 getCategories = (catId) =>  {
     return new Promise(function(resolve, error) {
      axiosInstance.get(`categories/${catId}`)
@@ -24,6 +27,11 @@ getCategories = (catId) =>  {
     }) 
  }
 
+/* 
+ * getFreqCategory recibe los 4 resultados y utiliza las categorias para armar un array sobre
+ * el cual contabilizar el que mayor ocurrencias tiene y ser este el ID utilizado para determinar
+ * el breadcrubm de un listado
+*/
  getFreqCategory = (response) => {
     res = response.data
     var categories = []
@@ -47,6 +55,9 @@ getCategories = (catId) =>  {
 /*                                  SEARCH ITEMS
 /* ****************************************************************************** */
 
+/**
+ * Objeto principal de intercambio con la vista
+ */
 searchResponse = () => {
     return {
         author: {
@@ -58,6 +69,9 @@ searchResponse = () => {
     }
 }
 
+/**
+ * Objeto item a inyectar en el array items en el objeto principal
+ */
  searchItem = (item) => {
     return {
         id: item.id, 
@@ -74,6 +88,9 @@ searchResponse = () => {
     }
 }
 
+/**
+ * Mapeo de datos devuelvos por servicio de ML
+ */
 itemResponseMapper = (response, categories) => {
     meliItemRes = response.data;
     const items = searchResponse(); 
@@ -87,6 +104,7 @@ itemResponseMapper = (response, categories) => {
 
 
 router.get('/items', function(req, res) {    
+    //Se agrega permisos de CORS para convivencia de servidor react/node
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
@@ -110,6 +128,9 @@ router.get('/items', function(req, res) {
 /*                                  SEARCH ITEM DETAIL
 /* ****************************************************************************** */
 
+/**
+ * Objeto principal de detalle para intercambio con la vista
+ */
 searchDetailsResponse = () => {
     return {
         author: {
@@ -121,6 +142,9 @@ searchDetailsResponse = () => {
     }
 }
 
+/**
+ * Objeto item a inyectar en el array items en el objeto principal
+ */
 itemDetails = (itemRes,descRes) => {
     return {
             id: itemRes.id,   
@@ -138,6 +162,9 @@ itemDetails = (itemRes,descRes) => {
         }
 }
 
+/**
+ * Mapeo de datos devuelvos por servicio de ML
+ */
 itemDetailResponseMapper = (itemRes,descRes,categories) => {
      const itemDetail = searchDetailsResponse(); 
      const mappedItem = itemDetails(itemRes,descRes);
@@ -147,12 +174,14 @@ itemDetailResponseMapper = (itemRes,descRes,categories) => {
   }
 
 router.get('/items/:id', function(req, res) {
+    //Se agrega permisos de CORS para convivencia de servidor react/node
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
     itemDetailPromise = axiosInstance.get(`/items/${req.params.id}`)
     itemDescriptionPromise = axiosInstance.get(`/items/${req.params.id}/description`)
 
+    //dado los N llamados asincronos, se utiliza promise all
     Promise.all([itemDetailPromise, itemDescriptionPromise])
         .then(function(values) {
             itemRes = values[0].data
