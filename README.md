@@ -1,6 +1,4 @@
 # meli-practical-exercise
-Practical exercise for ML technical interview
-
 
 Pasos para iniciarlizar el proyecto
 1) Clonar el repositorio
