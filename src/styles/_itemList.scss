@@ -1,0 +1,8 @@
+.item-list-container {
+    display: grid;
+    grid-template-columns: repeat(12,1fr);
+    height: 212px;
+    width: 80%;
+    max-width: 1000px;
+    margin: auto;
+}
